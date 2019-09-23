@@ -4,6 +4,7 @@
 #include <iostream>
 #include <vector>
 
+
 using std::cout;
 using std::endl;
 
@@ -16,7 +17,7 @@ ACircleMesh::ACircleMesh()
 	mesh = CreateDefaultSubobject<UProceduralMeshComponent>(TEXT("GeneratedMesh"));
 	RootComponent = mesh;
 	// New in UE 4.17, multi-threaded PhysX cooking.
-	mesh->bUseAsyncCooking = true;
+	//mesh->bUseAsyncCooking = true;
 
 	std::cout.rdbuf(&Stream);
 }
@@ -50,48 +51,25 @@ void ACircleMesh::PostLoad()
 }
 
 void ACircleMesh::CreateCircle() {
-
-	auto c = GenerativeGeometry::Circle(GenerativeGeometry::vec3{ 0.0, 0.0, 0.0 }, 10.0, 16);
+	
+	GenerativeGeometry::Gear2D c( FVector(0.0, 0.0, 0.0), 55.0, 32 );
 	c.Draw();
 
-	cout << "c.GetVertices().size() " << c.GetVertices().size() << endl;
-
-	TArray<FVector> vertices;
-	for (auto v : c.GetVertices()) {
-		FVector newV;
-		newV.X = v.x;
-		newV.Y = v.y;
-		newV.Z = v.z;
-		vertices.Add(newV);
-	}
-
-	std::cout << "vertices.Num(): "  << vertices.Num() << std::endl;
-
-	TArray<FVector> normals;
-	for (auto n : c.GetNormals()) {
-		FVector newN;
-		newN.X = n.x;
-		newN.Y = n.y;
-		newN.Z = n.z;
-		normals.Add(newN);
-	}
-	
-	TArray<int32> triangles;
-	for (auto t : c.GetTriangleVerts()) {
-		triangles.Add(t);
-	}
+	cout << "c.GetNumVerts() " << c.GetNumVerts() << endl;
 
 	TArray<FVector2D> UV0{};
 	TArray<FProcMeshTangent> tangents{};
 	TArray<FLinearColor> vertexColors{};
-	for (auto v : vertices) {
+	for (auto v : c.GetVertices()) {
 		UV0.Add(FVector2D(0, 0));
 		tangents.Add(FProcMeshTangent());
 		vertexColors.Add(FLinearColor(.75, .75, .75, 1.0));
 	}
 
-	mesh->CreateMeshSection_LinearColor(0, vertices, triangles, normals, UV0, vertexColors, tangents, true);
+	mesh->CreateMeshSection_LinearColor(0, c.GetVertices(), c.GetTriangleVerts(), c.GetNormals(), UV0, vertexColors, tangents, true);
 
 	// Enable collision data
 	mesh->ContainsPhysicsTriMeshData(true);
 }
+
+

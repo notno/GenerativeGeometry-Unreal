@@ -5,7 +5,7 @@
 /** For Example */
 // LStream Stream;
 // std::cout.rdbuf(&Stream);
-// std::cout << "some message" << std::endl;#pragma once
+// std::cout << "some message" << std::endl;
 
 class LStream : public std::stringbuf {
 protected:

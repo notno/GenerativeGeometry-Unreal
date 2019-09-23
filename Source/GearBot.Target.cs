@@ -9,5 +9,5 @@ public class GearBotTarget : TargetRules
 	{
 		Type = TargetType.Game;
 		ExtraModuleNames.Add("GearBot");
-	}
+    }
 }
