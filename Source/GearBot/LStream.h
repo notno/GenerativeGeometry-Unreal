@@ -1,6 +1,12 @@
 #pragma once
 #include "CoreMinimal.h"
 #include <sstream>
+
+/** For Example */
+// LStream Stream;
+// std::cout.rdbuf(&Stream);
+// std::cout << "some message" << std::endl;#pragma once
+
 class LStream : public std::stringbuf {
 protected:
 	int sync() {
@@ -10,7 +16,3 @@ protected:
 	}
 };
 
-
-// LStream Stream;
-// std::cout.rdbuf(&Stream);
-// std::cout << "some message" << std::endl;

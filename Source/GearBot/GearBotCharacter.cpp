@@ -2,7 +2,7 @@
 
 #include "GearBotCharacter.h"
 #include "LStream.h"
-
+#include "GG_Math.h"
 #include <iostream>
 
 #include "Camera/CameraComponent.h"
@@ -14,10 +14,10 @@
 AGearBotCharacter::AGearBotCharacter()
 {
 	// Test that the GenerativeGears library is getting included
-	// float r = GenerativeGeometry::Math::RandNormalized();
-	// LStream Stream;
-	// std::cout.rdbuf(&Stream);
-	// std::cout << "Testing some float " << r << std::endl;	
+	 float r = GenerativeGeometry::Math::RandNormalized();
+	 LStream Stream;
+	 std::cout.rdbuf(&Stream);
+	 std::cout << "Testing some float " << r << std::endl;	
 
 
 	// Set size for collision capsule
