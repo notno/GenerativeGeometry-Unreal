@@ -5,7 +5,7 @@
 #include "LStream.h"
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
-#include "GearBotCharacter.generated.h"
+#include "GearBotCharacter.generated.h" // Wants to be last
 
 UCLASS(config=Game)
 class AGearBotCharacter : public ACharacter

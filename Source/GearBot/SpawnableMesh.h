@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include "GG_Gear3D.h"
+#include "ChainManager.h"
 
 #include "ProceduralMeshComponent.h"
 #include "CoreMinimal.h"
@@ -17,15 +18,22 @@ private:
 
 	UPROPERTY(VisibleAnywhere)
 	UProceduralMeshComponent* mesh;
-	
+
+
+	double PitchValue = 0.f;
+	double YawValue = 0.f;
+	double RollValue = 0.f;
+
 public:	
+	GenerativeGeometry::Gear3D* ggGear3D;
 	// Sets default values for this actor's properties
 	ASpawnableMesh();
+	~ASpawnableMesh() {
+		delete(ggGear3D);
+		ggGear3D = nullptr;
+	}
 
 	void SpawnMesh(FVector Location);
-
-	UFUNCTION(BlueprintCallable, Category = "nwr")
-	static void SpawnThing(FVector Location);
 
 protected:
 	// Called when the game starts or when spawned

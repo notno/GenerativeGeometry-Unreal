@@ -1,7 +1,8 @@
+#include "SpawnableMesh.h" // Wants to be first
 #include <iostream>
 #include <EngineGlobals.h>
 #include <Runtime/Engine/Classes/Engine/Engine.h>
-#include "SpawnableMesh.h"
+
 // Sets default values
 ASpawnableMesh::ASpawnableMesh()
 {
@@ -12,7 +13,10 @@ ASpawnableMesh::ASpawnableMesh()
 	RootComponent = mesh;
 	// New in UE 4.17, multi-threaded PhysX cooking.
 	mesh->bUseAsyncCooking = true;
+	
+	ggGear3D = nullptr;
 
+	RollValue = 1.0f;
 	SpawnMesh(GetTransform().GetLocation());
 }
 
@@ -27,29 +31,27 @@ void ASpawnableMesh::BeginPlay()
 void ASpawnableMesh::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	FRotator NewRotation = FRotator(PitchValue, YawValue, RollValue);
+	FQuat QuatRotation = FQuat(NewRotation);
+	AddActorLocalRotation(QuatRotation, false, 0, ETeleportType::None);
 
-}
-
-void ASpawnableMesh::SpawnThing(FVector Location){
-	UE_LOG(LogTemp, Warning, TEXT("UGHGHGH"));
-	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("This is an on screen message!"));
 }
 
 void ASpawnableMesh::SpawnMesh(FVector Location) {
 
-	GenerativeGeometry::Gear3D c(Location, 55.0, 17);
-	c.Draw();
+	ggGear3D = new GenerativeGeometry::Gear3D(Location, 55.0, 17);
+	ggGear3D->Generate();
 
 	TArray<FVector2D> UV0{};
 	TArray<FProcMeshTangent> tangents{};
 	TArray<FLinearColor> vertexColors{};
-	for (auto v : c.GetVertices()) {
+	for (auto v : ggGear3D->GetVertices()) {
 		UV0.Add(FVector2D(0, 0));
 		tangents.Add(FProcMeshTangent());
 		vertexColors.Add(FLinearColor(.75, .75, .75, 1.0));
 	}
 
-	mesh->CreateMeshSection_LinearColor(0, c.GetVertices(), c.GetTriangleVerts(), c.GetNormals(), UV0, vertexColors, tangents, true);
+	mesh->CreateMeshSection_LinearColor(0, ggGear3D->GetVertices(), ggGear3D->GetTriangleVerts(), ggGear3D->GetNormals(), UV0, vertexColors, tangents, false);
 
 	// Enable collision data
 	mesh->ContainsPhysicsTriMeshData(true);

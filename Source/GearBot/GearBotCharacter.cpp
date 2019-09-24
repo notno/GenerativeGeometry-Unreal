@@ -1,11 +1,11 @@
 // Copyright 199#include "GearBotCharacter.h"
+#include "GearBotCharacter.h" // Wants to be first
 #include <iostream>
 
 #include "LStream.h"
 #include "GG_Math.h"
-
+#include "GG_Chain.h"
 #include "SpawnableMesh.h"
-#include "GearBotCharacter.h"
 
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
@@ -73,6 +73,11 @@ void AGearBotCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerI
 	PlayerInputComponent->BindTouch(IE_Released, this, &AGearBotCharacter::TouchStopped);
 }
 
+void AGearBotCharacter::SpawnMesh(FVector Location)
+{
+
+}
+
 void AGearBotCharacter::MoveRight(float Value)
 {
 
@@ -84,18 +89,11 @@ void AGearBotCharacter::MoveRight(float Value)
 void AGearBotCharacter::TouchStarted(const ETouchIndex::Type FingerIndex, const FVector Location)
 {
 	// jump on any touch
-	std::cout.rdbuf(&Stream);
-
-	std::cout << "*#**# ABOUT TO JOMP: " << std::endl;
-	ASpawnableMesh::SpawnThing(Location);
 	Jump();
 }
 
 void AGearBotCharacter::TouchStopped(const ETouchIndex::Type FingerIndex, const FVector Location)
 {
-	std::cout.rdbuf(&Stream);
-
-	std::cout << "*#**# ABOUT TO NOT JOMP: " << std::endl;
 	StopJumping();
 }
 

@@ -2,7 +2,6 @@
 
 #include "GearBotGameMode.h"
 #include "GearBotCharacter.h"
-#include "CircleMesh.h"
 #include "UObject/ConstructorHelpers.h"
 
 AGearBotGameMode::AGearBotGameMode()
