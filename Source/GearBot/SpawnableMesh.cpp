@@ -1,15 +1,9 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
-#include "CircleMesh.h"
 #include <iostream>
-#include <vector>
-
-
-using std::cout;
-using std::endl;
-
+#include <EngineGlobals.h>
+#include <Runtime/Engine/Classes/Engine/Engine.h>
+#include "SpawnableMesh.h"
 // Sets default values
-ACircleMesh::ACircleMesh()
+ASpawnableMesh::ASpawnableMesh()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
@@ -17,45 +11,34 @@ ACircleMesh::ACircleMesh()
 	mesh = CreateDefaultSubobject<UProceduralMeshComponent>(TEXT("GeneratedMesh"));
 	RootComponent = mesh;
 	// New in UE 4.17, multi-threaded PhysX cooking.
-	//mesh->bUseAsyncCooking = true;
+	mesh->bUseAsyncCooking = true;
 
-	std::cout.rdbuf(&Stream);
+	SpawnMesh(GetTransform().GetLocation());
 }
 
 // Called when the game starts or when spawned
-void ACircleMesh::BeginPlay()
+void ASpawnableMesh::BeginPlay()
 {
 	Super::BeginPlay();
 	
 }
 
 // Called every frame
-void ACircleMesh::Tick(float DeltaTime)
+void ASpawnableMesh::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
 }
 
-// This is called when actor is spawned (at runtime or when you drop it into the world in editor)
-void ACircleMesh::PostActorCreated()
-{
-	Super::PostActorCreated();
-	CreateCircle();
+void ASpawnableMesh::SpawnThing(FVector Location){
+	UE_LOG(LogTemp, Warning, TEXT("UGHGHGH"));
+	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("This is an on screen message!"));
 }
 
-// This is called when actor is already in level and map is opened
-void ACircleMesh::PostLoad()
-{
-	Super::PostLoad();
-	CreateCircle();
-}
+void ASpawnableMesh::SpawnMesh(FVector Location) {
 
-void ACircleMesh::CreateCircle() {
-	
-	GenerativeGeometry::Gear3D c( FVector(0.0, 0.0, 0.0), 55.0, 17);
+	GenerativeGeometry::Gear3D c(Location, 55.0, 17);
 	c.Draw();
-
-	cout << "c.GetNumVerts() " << c.GetNumVerts() << endl;
 
 	TArray<FVector2D> UV0{};
 	TArray<FProcMeshTangent> tangents{};
@@ -71,5 +54,4 @@ void ACircleMesh::CreateCircle() {
 	// Enable collision data
 	mesh->ContainsPhysicsTriMeshData(true);
 }
-
 

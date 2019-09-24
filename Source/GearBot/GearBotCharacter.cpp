@@ -1,9 +1,11 @@
-// Copyright 1998-2019 Epic Games, Inc. All Rights Reserved.
+// Copyright 199#include "GearBotCharacter.h"
+#include <iostream>
 
-#include "GearBotCharacter.h"
 #include "LStream.h"
 #include "GG_Math.h"
-#include <iostream>
+
+#include "SpawnableMesh.h"
+#include "GearBotCharacter.h"
 
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
@@ -17,8 +19,7 @@ AGearBotCharacter::AGearBotCharacter()
 	 float r = GenerativeGeometry::Math::RandNormalized();
 	 LStream Stream;
 	 std::cout.rdbuf(&Stream);
-	 std::cout << "Testing some float " << r << std::endl;	
-
+	 std::cout << "Testing some phat float " << r << std::endl;	
 
 	// Set size for collision capsule
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
@@ -74,6 +75,8 @@ void AGearBotCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerI
 
 void AGearBotCharacter::MoveRight(float Value)
 {
+
+
 	// add movement in that direction
 	AddMovementInput(FVector(0.f,-1.f,0.f), Value);
 }
@@ -81,12 +84,19 @@ void AGearBotCharacter::MoveRight(float Value)
 void AGearBotCharacter::TouchStarted(const ETouchIndex::Type FingerIndex, const FVector Location)
 {
 	// jump on any touch
-	//SpawnCircle();
+	std::cout.rdbuf(&Stream);
+
+	std::cout << "*#**# ABOUT TO JOMP: " << std::endl;
+	ASpawnableMesh::SpawnThing(Location);
 	Jump();
 }
 
 void AGearBotCharacter::TouchStopped(const ETouchIndex::Type FingerIndex, const FVector Location)
 {
+	std::cout.rdbuf(&Stream);
+
+	std::cout << "*#**# ABOUT TO NOT JOMP: " << std::endl;
 	StopJumping();
 }
+
 

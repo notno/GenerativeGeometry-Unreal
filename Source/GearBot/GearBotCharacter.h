@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "LStream.h"
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "GearBotCharacter.generated.h"
@@ -21,6 +22,8 @@ class AGearBotCharacter : public ACharacter
 
 protected:
 
+	LStream Stream;
+
 	/** Called for side to side input */
 	void MoveRight(float Val);
 
@@ -33,6 +36,8 @@ protected:
 	// APawn interface
 	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
 	// End of APawn interface
+
+	void SpawnMesh(FVector Location);
 
 
 public:
