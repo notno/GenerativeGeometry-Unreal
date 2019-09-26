@@ -1,10 +1,12 @@
 #pragma once
 
 #include <vector>
+#include <memory>
+#include <iostream>
 
 /**
- * HACK ALERT: This macro business makes me uncomfortable, 
- * but makes it easy to test code in Unreal without 
+ * HACKY: This macro solution makes me uncomfortable,
+ * but makes it easy to test code in Unreal without
  * depending on Unreal's containers in non-Unreal contexts
  * (e.g. OpenFrameworks, TouchDesigner)
  * 
@@ -28,6 +30,8 @@
 
 namespace GenerativeGeometry {
 
+	using std::cout;
+	using std::endl;
 const double pi = 3.14159265358979323846;
 
 struct vec2 {  
@@ -37,7 +41,8 @@ struct vec2 {
 struct vec3 { 
 	double X, Y, Z; 
 	vec3(double X, double Y, double Z) : X(X), Y(Y), Z(Z) {};
-	vec3() : X(0), Y(0), Z(0) {};
+	vec3() : vec3(0.0, 0.0, 0.0) {};
+	vec3(double val) : vec3(val, val, val) {};
 };
 struct vec4 { 
 	double r, g, b, a; 
@@ -46,7 +51,6 @@ struct vec4 {
 
 class Geometry {
 
-	V3 Center;
 
 public:
 	virtual void MakeTriangles() = 0;
@@ -55,9 +59,12 @@ public:
 	Geometry() : Center(V3(0.0,0.0,0.0)) {};
 	Geometry(V3 center) : Center(center) {};
 
-	V3 GetCenter() {
+	V3 GetCenter() const {
 		return Center;
 	}
+protected:
+	V3 Center;
 };
+
 
 } // namespace GenerativeGeometry

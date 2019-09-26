@@ -2,10 +2,9 @@
 
 #pragma once
 
-#include "LStream.h"
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
-#include "GearBotCharacter.generated.h" // Wants to be last
+#include "GearBotCharacter.generated.h"
 
 UCLASS(config=Game)
 class AGearBotCharacter : public ACharacter
@@ -22,8 +21,6 @@ class AGearBotCharacter : public ACharacter
 
 protected:
 
-	LStream Stream;
-
 	/** Called for side to side input */
 	void MoveRight(float Val);
 
@@ -37,8 +34,6 @@ protected:
 	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
 	// End of APawn interface
 
-	void SpawnMesh(FVector Location);
-
 
 public:
 	AGearBotCharacter();
@@ -47,6 +42,4 @@ public:
 	FORCEINLINE class UCameraComponent* GetSideViewCameraComponent() const { return SideViewCameraComponent; }
 	/** Returns CameraBoom subobject **/
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
-
-
 };

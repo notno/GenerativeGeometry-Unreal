@@ -1,45 +1,28 @@
 #pragma once
-#include "GG_Circle.h"
+#include "GG_Gear.h"
+#include <memory>
  
 namespace GenerativeGeometry {
 
-class Gear2D : public Circle {
+class Gear2D : public Gear {
 public:
-	Gear2D(V3 center, double radius, int numTeeth, double width = 30.0) : 
-		Circle(center, radius, numTeeth * 2), 
-		NumTeeth(numTeeth), ToothWidthUnit(SetToothWidthUnit(radius)) { };
+	Gear2D(V3 center, double radius, int numTeeth) : 
+		Gear(center, radius, numTeeth) { };
 
-	void Generate() override { MakeTriangles(); }
 
-	int GetNumTeeth() const { return NumTeeth; }; 
-	double GetToothWidthUnit() const { return ToothWidthUnit; };
-	double GetToothWidth() const {
-		return GetToothWidthUnit() * GetRadius();
-	}
-
-	int GetRotFactor() const { return RotationFactor; };
-	void SetRotFactor(int f) { RotationFactor = f; };
 protected:
-	int RotationFactor = 1;
-	int NumTeeth;
-	double ToothWidthUnit;
-
-	double SetToothWidthUnit(double) const {
-		return 2.0 * pi / (NumTeeth * 2.0);
-	};
 
 	virtual void MakeVertices(int i) override
 	{
 		auto center = GetCenter();
-		auto radius = GetRadius();
-		auto outerRadius = radius + GetToothWidth();
+		auto outerRadius = GetRadius() + GetToothWidth();
 
 		double theta = GetThetaAtIthSpoke(i - 1);
 		double cT = cos(theta);
 		double sT = sin(theta);
 
 		// Create vertices for front of gear
-		Vertices.PUSH(V3(0 + center.X, radius * cT, radius * sT));
+		Vertices.PUSH(V3(0 + center.X, Radius * cT, Radius * sT));
 		Vertices.PUSH(V3(0 + center.X, outerRadius * cT, outerRadius * sT));
 	}
 
@@ -52,7 +35,7 @@ protected:
 
 	virtual void MakeTriangleVertexIndices(int i) override 
 	{
-		if (i < NumTeeth * 2) {
+		if (i < GetNumTeeth() * 2) {
 			if ((i & 1) == 1) { // Gear tooth
 				// Make gear face triangle for tooth
 				AddTri(2*(i+1)-1, 2*i-1, 0); 
@@ -63,11 +46,12 @@ protected:
 				AddTri(0, 2*(i+1), 2*i);
 			}
 		}
-		else if (i == NumTeeth * 2) {
+		else if (i == GetNumTeeth() * 2) {
 			// Last triangle face, clockwise, a gap
 			AddTri(0, 2, 2*i);
 		}
 	}
 }; 
+
 
 }; // namespace GenerativeGeometry

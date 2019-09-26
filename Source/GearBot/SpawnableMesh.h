@@ -1,8 +1,7 @@
 #pragma once
 
-#include <iostream>
+//#include <iostream>
 #include "GG_Gear3D.h"
-#include "ChainManager.h"
 
 #include "ProceduralMeshComponent.h"
 #include "CoreMinimal.h"
@@ -17,20 +16,21 @@ class GEARBOT_API ASpawnableMesh : public AActor
 private:
 
 	UPROPERTY(VisibleAnywhere)
-	UProceduralMeshComponent* mesh;
+		UProceduralMeshComponent* mesh;
 
 
 	double PitchValue = 0.f;
 	double YawValue = 0.f;
 	double RollValue = 0.f;
 
-public:	
+public:
 	GenerativeGeometry::Gear3D* ggGear3D;
+
 	// Sets default values for this actor's properties
 	ASpawnableMesh();
 	~ASpawnableMesh() {
-		delete(ggGear3D);
-		ggGear3D = nullptr;
+		// delete(ggGear3D);
+		// ggGear3D = nullptr;
 	}
 
 	void SpawnMesh(FVector Location);
@@ -39,7 +39,7 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:	
+public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 

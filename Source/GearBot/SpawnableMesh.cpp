@@ -1,22 +1,21 @@
 #include "SpawnableMesh.h" // Wants to be first
-#include <iostream>
-#include <EngineGlobals.h>
-#include <Runtime/Engine/Classes/Engine/Engine.h>
+//#include <iostream>
+//#include <EngineGlobals.h>
+//#include <Runtime/Engine/Classes/Engine/Engine.h>
 
 // Sets default values
 ASpawnableMesh::ASpawnableMesh()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
 	mesh = CreateDefaultSubobject<UProceduralMeshComponent>(TEXT("GeneratedMesh"));
 	RootComponent = mesh;
 	// New in UE 4.17, multi-threaded PhysX cooking.
 	mesh->bUseAsyncCooking = true;
-	
+
 	ggGear3D = nullptr;
 
-	RollValue = 1.0f;
 	SpawnMesh(GetTransform().GetLocation());
 }
 
@@ -24,7 +23,7 @@ ASpawnableMesh::ASpawnableMesh()
 void ASpawnableMesh::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
 }
 
 // Called every frame
@@ -39,8 +38,13 @@ void ASpawnableMesh::Tick(float DeltaTime)
 
 void ASpawnableMesh::SpawnMesh(FVector Location) {
 
-	ggGear3D = new GenerativeGeometry::Gear3D(Location, 55.0, 17);
+	ggGear3D = new GenerativeGeometry::Gear3D(Location); 
+	auto l = ggGear3D->GetMyPreviousLink();
+	auto r = l ? l->GetRadius() : -1.666;
+	UE_LOG(LogTemp, Warning, TEXT("PreviousRadius: %f"), );
 	ggGear3D->Generate();
+
+	RollValue = ggGear3D->GetRotationFactor();
 
 	TArray<FVector2D> UV0{};
 	TArray<FProcMeshTangent> tangents{};

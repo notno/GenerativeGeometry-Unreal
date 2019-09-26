@@ -1,12 +1,6 @@
-// Copyright 199#include "GearBotCharacter.h"
-#include "GearBotCharacter.h" // Wants to be first
-#include <iostream>
+// Copyright 1998-2019 Epic Games, Inc. All Rights Reserved.
 
-#include "LStream.h"
-#include "GG_Math.h"
-#include "GG_Chain.h"
-#include "SpawnableMesh.h"
-
+#include "GearBotCharacter.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/InputComponent.h"
@@ -15,12 +9,6 @@
 
 AGearBotCharacter::AGearBotCharacter()
 {
-	// Test that the GenerativeGears library is getting included
-	 float r = GenerativeGeometry::Math::RandNormalized();
-	 LStream Stream;
-	 std::cout.rdbuf(&Stream);
-	 std::cout << "Testing some phat float " << r << std::endl;	
-
 	// Set size for collision capsule
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
 
@@ -57,8 +45,6 @@ AGearBotCharacter::AGearBotCharacter()
 	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
 }
 
-
-
 //////////////////////////////////////////////////////////////////////////
 // Input
 
@@ -73,15 +59,8 @@ void AGearBotCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerI
 	PlayerInputComponent->BindTouch(IE_Released, this, &AGearBotCharacter::TouchStopped);
 }
 
-void AGearBotCharacter::SpawnMesh(FVector Location)
-{
-
-}
-
 void AGearBotCharacter::MoveRight(float Value)
 {
-
-
 	// add movement in that direction
 	AddMovementInput(FVector(0.f,-1.f,0.f), Value);
 }
@@ -96,5 +75,4 @@ void AGearBotCharacter::TouchStopped(const ETouchIndex::Type FingerIndex, const 
 {
 	StopJumping();
 }
-
 

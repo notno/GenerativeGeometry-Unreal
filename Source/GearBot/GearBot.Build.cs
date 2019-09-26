@@ -9,9 +9,6 @@ public class GearBot : ModuleRules
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 
 		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "ProceduralMeshComponent" });
-
         Definitions.Add("_THIS_IS_UNREAL_=1");
     }
-
-
 }
