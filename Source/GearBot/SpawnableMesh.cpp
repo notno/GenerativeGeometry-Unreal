@@ -56,7 +56,7 @@ void ASpawnableMesh::SpawnMesh(FVector Location) {
 		vertexColors.Add(FLinearColor(.75, .75, .75, 1.0));
 	}
 
-	mesh->CreateMeshSection_LinearColor(0, ggGear3D->GetVertices(), ggGear3D->GetTriangleVerts(), ggGear3D->GetNormals(), UV0, vertexColors, tangents, false);
+	mesh->CreateMeshSection_LinearColor(0, ggGear3D->GetVertices(), ggGear3D->GetTriangleVertexIndices(), ggGear3D->GetNormals(), UV0, vertexColors, tangents, false);
 
 	// Enable collision data
 	mesh->ContainsPhysicsTriMeshData(true);
