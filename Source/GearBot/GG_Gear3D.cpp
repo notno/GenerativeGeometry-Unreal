@@ -1,25 +1,28 @@
 #include "GG_Gear3D.h"
 
-GenerativeGeometry::Gear3D* GenerativeGeometry::Gear3D::LastLink = nullptr;
-
-GenerativeGeometry::Gear3D::Gear3D(V3 center, double radius, int numTeeth, double width = 30.0)
-	: Gear(center, radius, numTeeth), GearWidth(width)
+GenerativeGeometry::Gear3D::Gear3D(V3 center, double radius, int numTeeth, Gear3D* previous, double width = 30.0)
+	: Gear(center, radius, numTeeth), GearWidth(width), MyPreviousLink(previous)
 {
 	assert(radius > 0);
 
-	MyPreviousLink = LastLink;
-	LastLink = this;
+	if (MyPreviousLink == nullptr) {
 
-	if (MyPreviousLink == nullptr) 
+		cout << "FIRST" << endl;
 		ThisIsFirstGear();
-	else
+	}
+	else {
+
+		cout << "NOT FIRST" << endl;
 		NewGearFromCenter(center);
+	}
 };
 
-GenerativeGeometry::Gear3D::Gear3D(V3 center) : Gear3D(center, FIRST_GEAR_RADIUS, FIRST_GEAR_NUMTEETH) // Use placeholder values // TODO: fix 
+// Use placeholder values // TODO: fix 
+GenerativeGeometry::Gear3D::Gear3D(V3 center, Gear3D* previous) : Gear3D(center, FIRST_GEAR_RADIUS, FIRST_GEAR_NUMTEETH, previous)
 {};
 
-GenerativeGeometry::Gear3D::Gear3D() : Gear3D(V3(0)) {};
+// Default initializer with no args just for Google Test
+GenerativeGeometry::Gear3D::Gear3D() : Gear3D( V3(0), nullptr ) {};
 
 void GenerativeGeometry::Gear3D::ThisIsFirstGear()
 {

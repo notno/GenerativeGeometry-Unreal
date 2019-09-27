@@ -36,12 +36,13 @@ void ASpawnableMesh::Tick(float DeltaTime)
 
 }
 
+GenerativeGeometry::Gear3D* ASpawnableMesh::last_ggGear3D = nullptr;
+
 void ASpawnableMesh::SpawnMesh(FVector Location) {
 
-	ggGear3D = new GenerativeGeometry::Gear3D(Location); 
-	auto l = ggGear3D->GetMyPreviousLink();
-	auto r = l ? l->GetRadius() : -1.666;
-	UE_LOG(LogTemp, Warning, TEXT("PreviousRadius: %f"), );
+	ggGear3D = new GenerativeGeometry::Gear3D(Location, last_ggGear3D);
+	UE_LOG(LogTemp, Warning, TEXT("PreviousRadius: %f"), ggGear3D->GetRadius() );
+	last_ggGear3D = ggGear3D;
 	ggGear3D->Generate();
 
 	RollValue = ggGear3D->GetRotationFactor();

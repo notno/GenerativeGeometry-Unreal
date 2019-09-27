@@ -25,6 +25,7 @@ private:
 
 public:
 	GenerativeGeometry::Gear3D* ggGear3D;
+	static GenerativeGeometry::Gear3D* last_ggGear3D;
 
 	// Sets default values for this actor's properties
 	ASpawnableMesh();
